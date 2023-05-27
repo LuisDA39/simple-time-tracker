@@ -43,5 +43,4 @@ public class Tiempo {
         etiquetaTiempo.setText(hours_string + ":" + minutes_string + ":" + seconds_string);
     });
 
-
 }

@@ -22,17 +22,20 @@ public class TimeTracker extends JFrame implements ActionListener {
     JPanel panelPrincipalCentro;
     JPanel panelPrincipalSur;
     JButton botonIniciarPausar; // *
-    JButton botonDetener;  //*
+    JButton botonGuardar;  //*
 
     // Tiempo
     Tiempo tiempo = new Tiempo();
     Tarea tarea = new Tarea();
+    Informe informe = new Informe();
+    Date inicio;
+    Date fin;
 
     TimeTracker() {
         // Frame ------------------------------------------------------------------------
         super("TimeTracker");
         setSize(900, 600);
-        setIconImage(new ImageIcon("src/Iconos/clock.png").getImage());
+        setIconImage(new ImageIcon("src/Iconos/logoApp.png").getImage());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
         setLocationRelativeTo(null);
@@ -41,13 +44,13 @@ public class TimeTracker extends JFrame implements ActionListener {
         // Panel Lateral ----------------------------------------------------------------
         panelLateral = new JPanel();
         panelLateral.setPreferredSize(new Dimension(300, getHeight()));
-        panelLateral.setBackground(new Color(169, 180, 194));
+        panelLateral.setBackground(null);
         panelLateral.setLayout(new BorderLayout(10, 10));
         add(panelLateral, BorderLayout.WEST);
 
         panelLateralNorte = new JPanel();
         panelLateralNorte.setPreferredSize(new Dimension(panelLateral.getWidth(), 50));
-        panelLateralNorte.setBackground(new Color(183,212,123));
+        panelLateralNorte.setBackground(null);
         panelLateralNorte.setLayout(new BorderLayout(5, 5));
         panelLateral.add(panelLateralNorte, BorderLayout.NORTH);
 
@@ -59,7 +62,7 @@ public class TimeTracker extends JFrame implements ActionListener {
 
         panelLateralSur = new JPanel();
         panelLateralSur.setPreferredSize(new Dimension(panelLateral.getWidth(), 70));
-        panelLateralSur.setBackground(new Color(183,212,123));
+        panelLateralSur.setBackground(null);
         panelLateral.add(panelLateralSur, BorderLayout.SOUTH);
 
         botonDescargar = new JButton("Descargar informe");
@@ -71,94 +74,108 @@ public class TimeTracker extends JFrame implements ActionListener {
 
         panelLateralCentro = new JPanel();
         panelLateralCentro.setPreferredSize(new Dimension(panelLateral.getWidth() - 10, panelLateral.getHeight() - 110));
-        panelLateralCentro.setBackground(new Color(123, 111, 255));
+        panelLateralCentro.setBackground(null);
         panelLateral.add(panelLateralCentro, BorderLayout.CENTER);
 
         // Panel Principal --------------------------------------------------------------
         panelPrincipal = new JPanel();
-        panelPrincipal.setPreferredSize(new Dimension(584, getHeight()));
-        panelPrincipal.setBackground(new Color(123, 11, 54));
+        panelPrincipal.setPreferredSize(new Dimension(600, getHeight())); //584, overlap
+        panelPrincipal.setBackground(null);
         panelPrincipal.setLayout(new BorderLayout());
         add(panelPrincipal, BorderLayout.EAST);
 
         panelPrincipalNorte = new JPanel();
         panelPrincipalNorte.setPreferredSize(new Dimension(panelPrincipal.getWidth(), 150));
-        panelPrincipalNorte.setBackground(new Color(124, 45, 187));
+        panelPrincipalNorte.setBackground(null);
         panelPrincipalNorte.setLayout(new GridLayout(2, 1, 7, 10));
         panelPrincipal.add(panelPrincipalNorte, BorderLayout.NORTH);
 
         panelPNorte1 = new JPanel();
-        panelPNorte1.setBackground(new Color(0, 145, 234));
+        panelPNorte1.setBackground(null);
         panelPrincipalNorte.add(panelPNorte1);
 
         etiquetaTituloPP = new JLabel("Time Tracker");
         etiquetaTituloPP.setFont(new Font("Segoe UI", Font.BOLD, 50));
-        etiquetaTituloPP.setIcon(new ImageIcon("src/Iconos/wall-clock.png"));
+        etiquetaTituloPP.setIcon(new ImageIcon("src/Iconos/IconoTimeTracker.png"));
         etiquetaTituloPP.setIconTextGap(15);
         panelPNorte1.add(etiquetaTituloPP, BorderLayout.WEST);
 
         panelPNorte2 = new JPanel();
-        panelPNorte2.setBackground(new Color(123, 145, 0));
+        panelPNorte2.setBackground(null);
         panelPrincipalNorte.add(panelPNorte2);
 
-        areaNombreTarea = new JTextField("Ingresa el nombre de la tarea . . .");
+        areaNombreTarea = new JTextField(" Ingresa el nombre de la tarea . . .");
         areaNombreTarea.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         areaNombreTarea.setPreferredSize(new Dimension(550, 50));
         panelPNorte2.add(areaNombreTarea);
 
         panelPrincipalCentro = new JPanel();
-        panelPrincipalCentro.setBackground(new Color(123, 231, 122));
+        panelPrincipalCentro.setBackground(null);
         panelPrincipalCentro.setPreferredSize(new Dimension(panelPrincipal.getWidth(), 300));
-        panelPrincipalCentro.setLayout(new FlowLayout(FlowLayout.CENTER, 0, (panelPrincipalCentro.getHeight()/2) + 15));
+        panelPrincipalCentro.setLayout(new BorderLayout());
         panelPrincipal.add(panelPrincipalCentro, BorderLayout.CENTER);
 
         // Etiqueta tiempo
         tiempo.etiquetaTiempo = new JLabel();
         tiempo.etiquetaTiempo.setText(tiempo.hours_string + ":" + tiempo.minutes_string + ":" + tiempo.seconds_string);
-        tiempo.etiquetaTiempo.setFont(new Font("Segoe UI",Font.PLAIN,130));
-        panelPrincipalCentro.add(tiempo.etiquetaTiempo);
+        tiempo.etiquetaTiempo.setFont(new Font("Segoe UI", Font.PLAIN, 120));
+        tiempo.etiquetaTiempo.setVerticalAlignment(SwingConstants.CENTER);
+        tiempo.etiquetaTiempo.setHorizontalAlignment(SwingConstants.CENTER);
+        panelPrincipalCentro.add(tiempo.etiquetaTiempo, BorderLayout.CENTER);
 
         panelPrincipalSur = new JPanel();
         panelPrincipalSur.setPreferredSize(new Dimension(panelPrincipal.getWidth(), 180));
-        panelPrincipalSur.setBackground(new Color(12, 21, 132));
-        panelPrincipalSur.setLayout(new FlowLayout(FlowLayout.CENTER, 50, 20));
+        panelPrincipalSur.setBackground(null);
+        panelPrincipalSur.setLayout(new FlowLayout(FlowLayout.CENTER, 50, 0));
         panelPrincipal.add(panelPrincipalSur, BorderLayout.SOUTH);
 
         botonIniciarPausar = new JButton();
-        botonIniciarPausar.setIcon(new ImageIcon("src/Iconos/play-button.png"));
+        botonIniciarPausar.setIcon(new ImageIcon("src/Iconos/playNormal.png"));
         botonIniciarPausar.setBackground(null);
         botonIniciarPausar.setBorderPainted(false);
         botonIniciarPausar.setContentAreaFilled(false);
         botonIniciarPausar.addActionListener(this);
+        botonIniciarPausar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (tiempo.started) {
+                    botonIniciarPausar.setIcon(new ImageIcon("src/Iconos/pausePresionado.png"));
+                } else {
+                    botonIniciarPausar.setIcon(new ImageIcon("src/Iconos/playPresionado.png"));
+                }
+            }
+        });
         botonIniciarPausar.setPreferredSize(new Dimension(130,130));
         botonIniciarPausar.setFocusable(false);
         panelPrincipalSur.add(botonIniciarPausar);
 
-        botonDetener = new JButton();
-        botonDetener.setIcon(new ImageIcon("src/Iconos/stop-button (1).png"));
-        botonDetener.setOpaque(true);
-        botonDetener.setBackground(null);
-        botonDetener.setBorderPainted(false);
-        botonDetener.setContentAreaFilled(false);
-        botonDetener.addActionListener(this);
-        botonDetener.setPreferredSize(new Dimension(130,130));
-        botonDetener.setFocusable(false);
-        botonDetener.addMouseListener(new MouseAdapter() {
+        botonGuardar = new JButton();
+        botonGuardar.setIcon(new ImageIcon("src/Iconos/guardarNormal.png"));
+        botonGuardar.setOpaque(true);
+        botonGuardar.setBackground(null);
+        botonGuardar.setEnabled(false);
+        botonGuardar.setBorderPainted(false);
+        botonGuardar.setContentAreaFilled(false);
+        botonGuardar.addActionListener(this);
+        botonGuardar.setPreferredSize(new Dimension(130,130));
+        botonGuardar.setFocusable(false);
+        botonGuardar.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                botonDetener.setIcon(new ImageIcon("src/Iconos/stop-button.png"));
+                if (botonGuardar.isEnabled()) {
+                    botonGuardar.setIcon(new ImageIcon("src/Iconos/guardarPresionado.png"));
+                }
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                botonDetener.setIcon(new ImageIcon("src/Iconos/stop-button (1).png"));
+                botonGuardar.setIcon(new ImageIcon("src/Iconos/guardarNormal.png"));
             }
         });
-        panelPrincipalSur.add(botonDetener);
+        panelPrincipalSur.add(botonGuardar);
 
         setVisible(true);
     }
-
 
     public static void main(String[] args) {
         new TimeTracker();
@@ -168,37 +185,48 @@ public class TimeTracker extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == botonIniciarPausar) {
             if (!tiempo.started) {
+                botonGuardar.setEnabled(true);
                 tiempo.started = true;
-                botonIniciarPausar.setIcon(new ImageIcon("src/Iconos/video-pause-button (2).png"));
+                botonIniciarPausar.setIcon(new ImageIcon("src/Iconos/pause.png"));
 
-                tarea.fechaIncio = new Date();
-
-                areaNombreTarea.setEnabled(false);
+                inicio = new Date();
 
                 tiempo.start();
 
-
             } else {
                 tiempo.started = false;
-                areaNombreTarea.setEnabled(true);
-                botonIniciarPausar.setIcon(new ImageIcon("src/Iconos/play-button.png"));
+                botonIniciarPausar.setIcon(new ImageIcon("src/Iconos/playNormal.png"));
                 tiempo.stop();
             }
 
         }
 
-        if (e.getSource() == botonDetener) {
+        if (e.getSource() == botonGuardar) {
             tiempo.started = false;
+            botonGuardar.setEnabled(false);
 
-            tarea.fechaFin = new Date();
+            fin = new Date();
 
-            botonIniciarPausar.setIcon(new ImageIcon("src/Iconos/play-button.png"));
+            String tiempoTotal = tiempo.hours_string + ":" + tiempo.minutes_string + ":" + tiempo.seconds_string;
+
+            if (areaNombreTarea.getText().equals("") || areaNombreTarea.getText().equals(" Ingresa el nombre de la tarea . . .")) {
+                tarea = new Tarea("Sin nombre", tiempoTotal, inicio, fin);
+
+            } else {
+                tarea = new Tarea(areaNombreTarea.getText(), tiempoTotal, inicio, fin);
+            }
+
+            informe.agregar(tarea);
+            panelLateralCentro.add(tarea.crearPanel());
+
+            botonIniciarPausar.setIcon(new ImageIcon("src/Iconos/playNormal.png"));
 
             areaNombreTarea.setText(null);
             tiempo.reset();
+        }
 
+        if (e.getSource() == botonDescargar) {
+            informe.descargar();
         }
     }
-
-
 }
