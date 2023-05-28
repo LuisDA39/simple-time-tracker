@@ -9,6 +9,7 @@ public class TimeTracker extends JFrame implements ActionListener {
     JPanel panelLateralNorte;
     JLabel etiquetaTituloPL;
     JPanel panelLateralCentro;
+    JScrollPane scrollPane;
     JPanel panelLateralSur;
     JButton botonDescargar;
 
@@ -34,7 +35,6 @@ public class TimeTracker extends JFrame implements ActionListener {
     // Colores predefinidos
     Color color1 = new Color(229, 235, 234);
     Color color2 = new Color(219, 217, 219);
-    JScrollPane scrollPane;
 
     TimeTracker() {
         // Frame ------------------------------------------------------------------------
@@ -67,9 +67,16 @@ public class TimeTracker extends JFrame implements ActionListener {
         panelLateralNorte.add(etiquetaTituloPL, BorderLayout.CENTER);
 
         panelLateralCentro = new JPanel();
-        panelLateralCentro.setPreferredSize(new Dimension(panelLateral.getWidth() - 10, panelLateral.getHeight() - 110));
-        panelLateralCentro.setBackground(null);
+        panelLateralCentro.setLayout(new BoxLayout(panelLateralCentro, BoxLayout.Y_AXIS));
         panelLateral.add(panelLateralCentro, BorderLayout.CENTER);
+
+        scrollPane = new JScrollPane(panelLateralCentro);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
+        scrollPane.setOpaque(false);
+        // scrollPane.getVerticalScrollBar().setBackground() ....
+        panelLateral.add(scrollPane);
 
         panelLateralSur = new JPanel();
         panelLateralSur.setPreferredSize(new Dimension(panelLateral.getWidth(), 70));
@@ -218,7 +225,7 @@ public class TimeTracker extends JFrame implements ActionListener {
             String tiempoTotal = tiempo.hours_string + ":" + tiempo.minutes_string + ":" + tiempo.seconds_string;
 
             if (areaNombreTarea.getText().equals("") || areaNombreTarea.getText().equals(" Ingresa el nombre de la tarea . . .")) {
-                tarea = new Tarea("Sin nombre", tiempoTotal, inicio, fin);
+                tarea = new Tarea("Tarea sin nombre", tiempoTotal, inicio, fin);
 
             } else {
                 tarea = new Tarea(areaNombreTarea.getText(), tiempoTotal, inicio, fin);
@@ -226,10 +233,11 @@ public class TimeTracker extends JFrame implements ActionListener {
 
             informe.agregar(tarea);
             panelLateralCentro.add(tarea.crearPanel());
+            panelLateralCentro.add(Box.createVerticalStrut(11));
 
             botonIniciarPausar.setIcon(new ImageIcon("src/Iconos/playNormal.png"));
 
-            areaNombreTarea.setText(null);
+            areaNombreTarea.setText(" Ingresa el nombre de la tarea . . .");
             botonDescargar.setEnabled(true);
 
             tiempo.reset();
