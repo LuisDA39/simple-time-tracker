@@ -24,12 +24,17 @@ public class TimeTracker extends JFrame implements ActionListener {
     JButton botonIniciarPausar; // *
     JButton botonGuardar;  //*
 
-    // Tiempo
+    // Tiempo y tareas
     Tiempo tiempo = new Tiempo();
     Tarea tarea = new Tarea();
     Informe informe = new Informe();
     Date inicio;
     Date fin;
+
+    // Colores predefinidos
+    Color color1 = new Color(229, 235, 234);
+    Color color2 = new Color(219, 217, 219);
+    JScrollPane scrollPane;
 
     TimeTracker() {
         // Frame ------------------------------------------------------------------------
@@ -40,6 +45,7 @@ public class TimeTracker extends JFrame implements ActionListener {
         setResizable(false);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(60,80));
+        setBackground(null);
 
         // Panel Lateral ----------------------------------------------------------------
         panelLateral = new JPanel();
@@ -60,6 +66,11 @@ public class TimeTracker extends JFrame implements ActionListener {
         etiquetaTituloPL.setHorizontalAlignment(SwingConstants.CENTER);
         panelLateralNorte.add(etiquetaTituloPL, BorderLayout.CENTER);
 
+        panelLateralCentro = new JPanel();
+        panelLateralCentro.setPreferredSize(new Dimension(panelLateral.getWidth() - 10, panelLateral.getHeight() - 110));
+        panelLateralCentro.setBackground(null);
+        panelLateral.add(panelLateralCentro, BorderLayout.CENTER);
+
         panelLateralSur = new JPanel();
         panelLateralSur.setPreferredSize(new Dimension(panelLateral.getWidth(), 70));
         panelLateralSur.setBackground(null);
@@ -70,12 +81,8 @@ public class TimeTracker extends JFrame implements ActionListener {
         botonDescargar.addActionListener(this);
         botonDescargar.setFont(new Font("Segoe UI", Font.PLAIN, 20));
         botonDescargar.setIcon(new ImageIcon("src/Iconos/IconoDescargar.png"));
+        botonDescargar.setEnabled(false);
         panelLateralSur.add(botonDescargar);
-
-        panelLateralCentro = new JPanel();
-        panelLateralCentro.setPreferredSize(new Dimension(panelLateral.getWidth() - 10, panelLateral.getHeight() - 110));
-        panelLateralCentro.setBackground(null);
-        panelLateral.add(panelLateralCentro, BorderLayout.CENTER);
 
         // Panel Principal --------------------------------------------------------------
         panelPrincipal = new JPanel();
@@ -105,7 +112,8 @@ public class TimeTracker extends JFrame implements ActionListener {
         panelPrincipalNorte.add(panelPNorte2);
 
         areaNombreTarea = new JTextField(" Ingresa el nombre de la tarea . . .");
-        areaNombreTarea.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        areaNombreTarea.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        areaNombreTarea.setForeground(new Color(69, 69, 69));
         areaNombreTarea.setPreferredSize(new Dimension(550, 50));
         panelPNorte2.add(areaNombreTarea);
 
@@ -222,6 +230,8 @@ public class TimeTracker extends JFrame implements ActionListener {
             botonIniciarPausar.setIcon(new ImageIcon("src/Iconos/playNormal.png"));
 
             areaNombreTarea.setText(null);
+            botonDescargar.setEnabled(true);
+
             tiempo.reset();
         }
 
