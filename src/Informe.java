@@ -11,11 +11,11 @@ public class Informe {
         tareas = new ArrayList<>();
     }
 
-    public void agregar(Tarea tarea) {
+    public void agregar(Tarea tarea) { // Agrega tareas el arraylist
         tareas.add(tarea);
     }
 
-    public void descargar() {
+    public void descargar() { // Descarga el informe de las tareas
         StringBuilder sb = new StringBuilder();
 
         for (Tarea tarea1 : tareas) {

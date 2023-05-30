@@ -1,6 +1,6 @@
 import javax.swing.*;
 
-public class Tiempo {
+public class Tiempo { // con ayuda de: https://youtu.be/0cATENiMsBE
     int elapsedTime = 0;
     int segundos = 0;
     int minutos = 0;
@@ -12,15 +12,15 @@ public class Tiempo {
 
     JLabel etiquetaTiempo;
 
-    void start() {
+    void start() { // Incia el contador
         timer.start();
     }
 
-    void stop() {
+    void stop() { // Detiene el contador
         timer.stop();
     }
 
-    void reset() {
+    void reset() {  // Reinicia el contador
         timer.stop();
         elapsedTime = 0;
         segundos = 0;
@@ -32,6 +32,7 @@ public class Tiempo {
         etiquetaTiempo.setText(hours_string + ":" + minutes_string + ":" + seconds_string);
     }
 
+    // Funcionalidad del contador
     Timer timer = new Timer(1000, e -> {
         elapsedTime = elapsedTime + 1000;
         horas = (elapsedTime/3600000);

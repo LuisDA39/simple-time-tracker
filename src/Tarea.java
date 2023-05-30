@@ -17,7 +17,7 @@ public class Tarea extends Tiempo {
         this.fechaFin = fechaFin;
     }
 
-    public JPanel crearPanel() {
+    public JPanel crearPanel() { // Crea un panel con la información de la tarea
         JPanel panel = new JPanel();
         panel.setBackground(null);
         panel.setPreferredSize((new Dimension(290, 75)));
