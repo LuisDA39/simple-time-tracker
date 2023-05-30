@@ -32,10 +32,6 @@ public class TimeTracker extends JFrame implements ActionListener {
     Date inicio;
     Date fin;
 
-    // Colores predefinidos
-    Color color1 = new Color(229, 235, 234);
-    Color color2 = new Color(219, 217, 219);
-
     TimeTracker() {
         // Frame ------------------------------------------------------------------------
         super("TimeTracker");
@@ -50,7 +46,7 @@ public class TimeTracker extends JFrame implements ActionListener {
         // Panel Lateral ----------------------------------------------------------------
         panelLateral = new JPanel();
         panelLateral.setPreferredSize(new Dimension(300, getHeight()));
-        panelLateral.setBackground(null);
+        panelLateral.setBackground(new Color(230, 230, 230));
         panelLateral.setLayout(new BorderLayout(10, 10));
         add(panelLateral, BorderLayout.WEST);
 
@@ -68,14 +64,15 @@ public class TimeTracker extends JFrame implements ActionListener {
 
         panelLateralCentro = new JPanel();
         panelLateralCentro.setLayout(new BoxLayout(panelLateralCentro, BoxLayout.Y_AXIS));
+        panelLateralCentro.setBackground(new Color(230, 230, 230));
         panelLateral.add(panelLateralCentro, BorderLayout.CENTER);
 
         scrollPane = new JScrollPane(panelLateralCentro);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
-        scrollPane.setOpaque(false);
-        // scrollPane.getVerticalScrollBar().setBackground() ....
+        scrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(12, 10));
+        scrollPane.getVerticalScrollBar().setUnitIncrement(10);
         panelLateral.add(scrollPane);
 
         panelLateralSur = new JPanel();
@@ -93,7 +90,7 @@ public class TimeTracker extends JFrame implements ActionListener {
 
         // Panel Principal --------------------------------------------------------------
         panelPrincipal = new JPanel();
-        panelPrincipal.setPreferredSize(new Dimension(600, getHeight())); //584, overlap
+        panelPrincipal.setPreferredSize(new Dimension(584, getHeight())); //584 - 600
         panelPrincipal.setBackground(null);
         panelPrincipal.setLayout(new BorderLayout());
         add(panelPrincipal, BorderLayout.EAST);
@@ -122,6 +119,20 @@ public class TimeTracker extends JFrame implements ActionListener {
         areaNombreTarea.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         areaNombreTarea.setForeground(new Color(69, 69, 69));
         areaNombreTarea.setPreferredSize(new Dimension(550, 50));
+        areaNombreTarea.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if (areaNombreTarea.getText().equals(" Ingresa el nombre de la tarea . . ."))
+                    areaNombreTarea.setText("");
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (areaNombreTarea.getText().equals(" Ingresa el nombre de la tarea . . ."))
+                    areaNombreTarea.setText("");
+            }
+        });
         panelPNorte2.add(areaNombreTarea);
 
         panelPrincipalCentro = new JPanel();
@@ -141,7 +152,7 @@ public class TimeTracker extends JFrame implements ActionListener {
         panelPrincipalSur = new JPanel();
         panelPrincipalSur.setPreferredSize(new Dimension(panelPrincipal.getWidth(), 180));
         panelPrincipalSur.setBackground(null);
-        panelPrincipalSur.setLayout(new FlowLayout(FlowLayout.CENTER, 50, 0));
+        panelPrincipalSur.setLayout(new FlowLayout(FlowLayout.CENTER, 70, 20));
         panelPrincipal.add(panelPrincipalSur, BorderLayout.SOUTH);
 
         botonIniciarPausar = new JButton();
@@ -150,6 +161,8 @@ public class TimeTracker extends JFrame implements ActionListener {
         botonIniciarPausar.setBorderPainted(false);
         botonIniciarPausar.setContentAreaFilled(false);
         botonIniciarPausar.addActionListener(this);
+        botonIniciarPausar.setPreferredSize(new Dimension(90,90));
+        botonIniciarPausar.setFocusable(false);
         botonIniciarPausar.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -160,8 +173,6 @@ public class TimeTracker extends JFrame implements ActionListener {
                 }
             }
         });
-        botonIniciarPausar.setPreferredSize(new Dimension(130,130));
-        botonIniciarPausar.setFocusable(false);
         panelPrincipalSur.add(botonIniciarPausar);
 
         botonGuardar = new JButton();
@@ -172,7 +183,7 @@ public class TimeTracker extends JFrame implements ActionListener {
         botonGuardar.setBorderPainted(false);
         botonGuardar.setContentAreaFilled(false);
         botonGuardar.addActionListener(this);
-        botonGuardar.setPreferredSize(new Dimension(130,130));
+        botonGuardar.setPreferredSize(new Dimension(90,90));
         botonGuardar.setFocusable(false);
         botonGuardar.addMouseListener(new MouseAdapter() {
             @Override
@@ -224,7 +235,7 @@ public class TimeTracker extends JFrame implements ActionListener {
 
             String tiempoTotal = tiempo.hours_string + ":" + tiempo.minutes_string + ":" + tiempo.seconds_string;
 
-            if (areaNombreTarea.getText().equals("") || areaNombreTarea.getText().equals(" Ingresa el nombre de la tarea . . .")) {
+            if (areaNombreTarea.getText().equals("")) {
                 tarea = new Tarea("Tarea sin nombre", tiempoTotal, inicio, fin);
 
             } else {
