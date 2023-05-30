@@ -132,13 +132,6 @@ public class TimeTracker extends JFrame implements ActionListener {
         areaNombreTarea.setPreferredSize(new Dimension(550, 50));
         areaNombreTarea.addKeyListener(new KeyAdapter() { // Para agregar funcionalidad cuando se recibe una acción del teclado
             @Override
-            public void keyTyped(KeyEvent e) { // El texto por defecto se borra si se escribe algo
-                if (areaNombreTarea.getText().equals(" Ingresa el nombre de la tarea . . ."))
-                    areaNombreTarea.setText("");
-
-            }
-
-            @Override
             public void keyPressed(KeyEvent e) { // El texto por defecto se borra cuando se presiona una tecla
                 if (areaNombreTarea.getText().equals(" Ingresa el nombre de la tarea . . ."))
                     areaNombreTarea.setText("");
@@ -179,8 +172,8 @@ public class TimeTracker extends JFrame implements ActionListener {
         botonIniciarPausar.setFocusable(false); // Esconde un marco azul que sale al presionarlo
         botonIniciarPausar.addMouseListener(new MouseAdapter() { // Agrega funcionalidad a la hora de usar el mouse
             @Override
-            public void mousePressed(MouseEvent e) { // Si se presiona el botón, se cambia de icono play/pausa
-                if (tiempo.started) { // Si el contador está iniciado, se asignará el icono de pausa
+            public void mousePressed(MouseEvent e) { // Si se presiona el botón, se cambia de icono play/pausa ...
+                if (tiempo.started) { // ... dependiendo del estado del contador
                     botonIniciarPausar.setIcon(new ImageIcon("src/Iconos/pausePresionado.png"));
                 } else {
                     botonIniciarPausar.setIcon(new ImageIcon("src/Iconos/playPresionado.png"));
@@ -202,7 +195,7 @@ public class TimeTracker extends JFrame implements ActionListener {
         botonGuardar.addMouseListener(new MouseAdapter() { // Agrega funcionalidad al momento de usar el mouse
             @Override
             public void mousePressed(MouseEvent e) { // El icono cambia de tamaño dependiendo si está presionado o no
-                if (botonGuardar.isEnabled()) { // Si se presiona el mouse y está activado, se asigna un icono presionado
+                if (botonGuardar.isEnabled()) { // Si se presiona el mouse y está activado, se asigna el icono presionado
                     botonGuardar.setIcon(new ImageIcon("src/Iconos/guardarPresionado.png"));
                 }
             }
@@ -263,7 +256,7 @@ public class TimeTracker extends JFrame implements ActionListener {
 
             botonIniciarPausar.setIcon(new ImageIcon("src/Iconos/playNormal.png")); // Cambia el icono por el de play
 
-            areaNombreTarea.setText(" Ingresa el nombre de la tarea . . ."); // Vuelve a colocar
+            areaNombreTarea.setText(" Ingresa el nombre de la tarea . . ."); // Vuelve a colocar el texto por defecto
             botonDescargar.setEnabled(true); // Activa el botónDescargar, para evitar que se descarguen reportes vacíos
 
             tiempo.reset(); // Reinicia el contador
