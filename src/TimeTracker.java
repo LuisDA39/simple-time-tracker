@@ -235,7 +235,7 @@ public class TimeTracker extends JFrame implements ActionListener {
 
             String tiempoTotal = tiempo.hours_string + ":" + tiempo.minutes_string + ":" + tiempo.seconds_string;
 
-            if (areaNombreTarea.getText().equals("")) {
+            if (areaNombreTarea.getText().equals("") || areaNombreTarea.getText().equals(" Ingresa el nombre de la tarea . . .")) {
                 tarea = new Tarea("Tarea sin nombre", tiempoTotal, inicio, fin);
 
             } else {
